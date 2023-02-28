@@ -25,7 +25,7 @@ public class Main {
             Skladnik skladnik = new Skladnik();
 
             skladnik.nazwa = JOptionPane.showInputDialog("Podaj nazwę "+ (i+1) + " składnika");
-
+            skladnik.jednostka = JOptionPane.showInputDialog("Podaj jednostkę miary " + skladnik.nazwa);
 
             do {
                 try {
@@ -45,7 +45,7 @@ public class Main {
         for (Skladnik skladnik : skladniki) {
             wynik.append(skladnik.nazwa).append(" - ").append(skladnik.ilosc).append(" ").append(skladnik.jednostka).append("\n");
         }
-        JOptionPane.showMessageDialog(null, wynik.toString(), "Składniki", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, wynik.toString());
 
     }
 }
