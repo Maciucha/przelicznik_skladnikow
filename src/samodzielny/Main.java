@@ -1,7 +1,6 @@
 package samodzielny;
 
 import javax.swing.JOptionPane;
-import java.awt.Font;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,7 +23,7 @@ public class Main {
         double[] ilosciSkladnikow = new double[n];
 
         String iloscSkladnika;
-        Double iloscDouble;
+        double iloscDouble;
         for (int i = 0; i < n; i++) {
             nazwySkladnikow[i] = JOptionPane.showInputDialog("Podaj nazwę składnika " + (i + 1));
             do {
