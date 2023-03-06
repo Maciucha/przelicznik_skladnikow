@@ -6,25 +6,20 @@ import javax.swing.JOptionPane;
 
 public class Main {
     public static void main(String[] args) {
+        double przelicznik = 1.0;
+
 
         List<Skladnik> skladniki = new ArrayList<>();
 
-        int n;
         do {
-            try {
-                String nn = JOptionPane.showInputDialog("Podaj ilość składników w przepisie");
-                n = Integer.parseInt(nn);
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Wpisz liczbę");
-                continue;
-            }
-            break;
-        } while (true);
-
-        for (int i = 0; i < n; i++) {
             Skladnik skladnik = new Skladnik();
 
-            skladnik.nazwa = JOptionPane.showInputDialog("Podaj nazwę "+ (i+1) + " składnika");
+            skladnik.nazwa = JOptionPane.showInputDialog("Podaj nazwę składnika, lub wpisz \"koniec\"");
+
+            if (skladnik.nazwa.equalsIgnoreCase("koniec")) {
+                break;
+            }
+
             skladnik.jednostka = JOptionPane.showInputDialog("Podaj jednostkę miary " + skladnik.nazwa);
 
             do {
@@ -38,14 +33,54 @@ public class Main {
                 }
                 break;
             } while (true);
+
             skladniki.add(skladnik);
+        } while (true);
+
+
+        String nazwaZmienianegoSkladnika;
+        boolean znaleziono = false;
+        do {
+            nazwaZmienianegoSkladnika = JOptionPane.showInputDialog("Podaj nazwę składnika, którego ilość zmieniasz");
+                for (Skladnik skladnik : skladniki) {
+                if (skladnik.nazwa.equals(nazwaZmienianegoSkladnika)) {
+                    znaleziono = true;
+                    break;
+                }
+            }
+            if (!znaleziono) {
+                JOptionPane.showMessageDialog(null, "Podaj prawidłową nazwę składnika");
+            }
+        } while (!znaleziono);
+
+
+        double nowaIloscDouble;
+
+        do {
+            try {
+                String nowaIloscSkladnika = JOptionPane.showInputDialog("Podaj nową ilość " + nazwaZmienianegoSkladnika);
+                nowaIloscSkladnika = nowaIloscSkladnika.replace(",", ".");
+                nowaIloscDouble = Double.parseDouble(nowaIloscSkladnika);
+                break;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Wpisz liczbę");
+            }
+        } while (true);
+
+
+        for (Skladnik skladnik : skladniki) {
+            if (skladnik.nazwa.equals(nazwaZmienianegoSkladnika)) {
+                przelicznik = nowaIloscDouble / Double.parseDouble(skladnik.ilosc);
+                skladnik.ilosc = String.valueOf(Double.parseDouble(skladnik.ilosc));
+            }
         }
+
 
         StringBuilder wynik = new StringBuilder();
         for (Skladnik skladnik : skladniki) {
-            wynik.append(skladnik.nazwa).append(" - ").append(skladnik.ilosc).append(" ").append(skladnik.jednostka).append("\n");
+            wynik.append(skladnik.nazwa).append(" - ").append(Double.parseDouble(skladnik.ilosc)*przelicznik).append(" ").append(skladnik.jednostka).append("\n");
         }
-        JOptionPane.showMessageDialog(null, wynik.toString());
+        JOptionPane.showMessageDialog(null, wynik.toString(), "Składniki po przeliczeniu", JOptionPane.INFORMATION_MESSAGE);
 
     }
 }
